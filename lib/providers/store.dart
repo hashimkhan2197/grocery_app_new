@@ -56,27 +56,42 @@ class Store with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> updateStore(StoreModel updatedStoreModel) async {
-//    final ref = FirebaseStorage.instance
-//        .ref()
-//        .child('images');
-//    await ref.putFile(image).onComplete;
-//
-//    final url = ref.getDownloadURL();
+  Future<void> updateStore(StoreModel updatedStoreModel,String storeDocId,File image) async {
 
+    if (image!= null){
+      final ref = FirebaseStorage.instance
+          .ref()
+          .child('images').child("fjijj"+ DateTime.now().toString()+".jpg");
+      await ref.putFile(image).onComplete;
 
-    Firestore.instance
-        .collection(stores_collection)
-        .document(updatedStoreModel.storeDocId)
-        .updateData({
-      _storeName: updatedStoreModel.storeName,
-      _storePassword: updatedStoreModel.storePassword,
-      _storeId: updatedStoreModel.storeId,
-      _storeAddress: updatedStoreModel.storeAddress,
+      final url = await ref.getDownloadURL();
 
-    }).catchError((error) {
-      throw error;
-    });
+      Firestore.instance
+          .collection(stores_collection)
+          .document(updatedStoreModel.storeDocId)
+          .updateData({
+        _storeName: updatedStoreModel.storeName,
+        _storePassword: updatedStoreModel.storePassword,
+        _storeId: updatedStoreModel.storeId,
+        _storeAddress: updatedStoreModel.storeAddress,
+        _storeImageRef: url
+      }).catchError((error) {
+        throw error;
+      });
+    }else{
+      Firestore.instance
+          .collection(stores_collection)
+          .document(updatedStoreModel.storeDocId)
+          .updateData({
+        _storeName: updatedStoreModel.storeName,
+        _storePassword: updatedStoreModel.storePassword,
+        _storeId: updatedStoreModel.storeId,
+        _storeAddress: updatedStoreModel.storeAddress,
+
+      }).catchError((error) {
+        throw error;
+      });
+    }
     notifyListeners();
   }
 

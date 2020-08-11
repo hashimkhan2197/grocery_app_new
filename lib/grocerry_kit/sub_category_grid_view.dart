@@ -35,12 +35,19 @@ class _SubcategoryGridViewState extends State<SubcategoryGridView> {
       appBar: AppBar(
         centerTitle: true,
         brightness: Brightness.dark,
-        elevation: 0,
-        backgroundColor: Theme.of(context).primaryColor,
+        elevation: 0,leading: GestureDetector(
+        onTap: () {
+          Navigator.pop(context);
+        },
+        child: Icon(
+          Icons.arrow_back,
+          color: Colors.white,
+        ),
+      ),
         automaticallyImplyLeading: true,
         title: Text(
           widget.productName,
-          style: TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.white, fontSize: 24)
         ),
         actions: <Widget>[
           GestureDetector(
@@ -95,7 +102,7 @@ class _SubcategoryGridViewState extends State<SubcategoryGridView> {
                   crossAxisCount: 2,
                   mainAxisSpacing: 20,
                   crossAxisSpacing: 20,
-                  childAspectRatio: 0.75,
+                  childAspectRatio: 0.65,
                 ),
                 itemBuilder: (context, index) {
                   var data = snapshot.data.documents[index];

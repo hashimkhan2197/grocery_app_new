@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:groceryapp/grocerry_kit/SignIn.dart';
 import 'package:groceryapp/providers/collection_names.dart';
 import 'package:groceryapp/widgets/custom_image_picker.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 class CouponDeliveryPage extends StatefulWidget {
   @override
@@ -16,13 +17,28 @@ class CouponDeliveryPage extends StatefulWidget {
 class _CouponDeliveryPageState extends State<CouponDeliveryPage> {
 
   final _formKey = GlobalKey<FormState>();
+  final _formKey1 = GlobalKey<FormState>();
   String _couponCode = '';
   String _discPercentage = '';
+  TextEditingController _first = TextEditingController();
+  TextEditingController _second = TextEditingController();
+  TextEditingController _third = TextEditingController();
+  TextEditingController _helpEmailController = TextEditingController();
+  TextEditingController _helpNumberController = TextEditingController();
   File _categoryImageFile;
   void _pickedImage(File image) {
     _categoryImageFile = image;
   }
 
+  @override
+  void dispose() {
+    _helpEmailController.dispose();
+    _helpNumberController.dispose();
+    _first.dispose();
+    _second.dispose();
+    _third.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,14 +46,14 @@ class _CouponDeliveryPageState extends State<CouponDeliveryPage> {
       backgroundColor: Colors.white70,
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Hexcolor('#0644e3'),
         elevation: 0,
         brightness: Brightness.dark,
         automaticallyImplyLeading: false,
         title: Text(
           'Admin',
           style: TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 22),
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 24),
         ),
         actions: <Widget>[
           GestureDetector(
@@ -175,6 +191,208 @@ class _CouponDeliveryPageState extends State<CouponDeliveryPage> {
 //            ],
 //
 //          ),
+        ///change help email and number
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                'Help Data Section',
+                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: 16, right: 16, top: 8, bottom: 8),
+                    child: TextFormField(
+                      controller: _helpEmailController,
+                      keyboardType: TextInputType.text,
+                      style: TextStyle(fontSize: 18),
+                      decoration: InputDecoration(
+                        hintText: 'Help Email',
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(color: Colors.grey)),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(color: Colors.grey)),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: 16, right: 16, top: 8, bottom: 8),
+                    child: TextFormField(
+                      controller: _helpNumberController,
+                      style: TextStyle(fontSize: 18),
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                        hintText: 'Help Number',
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(color: Colors.grey)),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(color: Colors.grey)),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 16, bottom: 16),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor,
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                ),
+                width: 200,
+                child: FlatButton(
+                  child: Text('Save',
+                      style: TextStyle(fontSize: 20, color: Colors.white)),
+                  onPressed: () {
+                      Firestore.instance.collection('helpdata').document('helpdata').updateData({
+                        "email": _helpEmailController.text,
+                        'number':_helpNumberController.text
+                      });
+                      setState(() {
+                        _helpEmailController.clear();
+                        _helpNumberController.clear();
+                      });
+                      Scaffold.of(context).showSnackBar(SnackBar(
+                        content: Text("Help data has been updated.",
+                        style: TextStyle(color:Colors.white),),
+                        backgroundColor: Hexcolor('#0644e3'),
+                      ));
+
+                  },
+                ),
+              ),
+
+            ],
+          ),
+
+          ///Delivery Charges section
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                'Change Delivery Charges',
+                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: 16, right: 16, top: 8, bottom: 8),
+                    child: TextFormField(
+
+                      controller: _first,
+                      style: TextStyle(fontSize: 18),
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        hintText: 'For order less than 100SEK',
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(color: Colors.grey)),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(color: Colors.grey)),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: 16, right: 16, top: 8, bottom: 8),
+                    child: TextFormField(
+
+                      controller: _second,
+                      style: TextStyle(fontSize: 18),
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        hintText: 'For order 100SEK-200SEK.',
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(color: Colors.grey)),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(color: Colors.grey)),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: 16, right: 16, top: 8, bottom: 8),
+                    child: TextFormField(
+                      controller: _third,
+                      style: TextStyle(fontSize: 18),
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        hintText: 'For order more than 200SEK.',
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(color: Colors.grey)),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(color: Colors.grey)),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 16, bottom: 16),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor,
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                ),
+                width: 200,
+                child: FlatButton(
+                  child: Text('Save',
+                      style: TextStyle(fontSize: 20, color: Colors.white)),
+                  onPressed: () {
+                      Firestore.instance.collection('helpdata').document('deliverycharges').updateData({
+
+                        'first':_first.text,
+                        'second': _second.text,
+                        'third': _third.text
+                      });
+                      setState(() {
+                        _first.clear();
+                        _second.clear();
+                        _third.clear();
+                      });
+                      Scaffold.of(context).showSnackBar(SnackBar(
+                        content: Text("Delivery charges updated.",
+                          style: TextStyle(color:Colors.white),),
+                        backgroundColor: Hexcolor('#0644e3'),
+                      ));
+
+                  },
+                ),
+              ),
+
+            ],
+          ),
+
+
           ///Coupons Section
           Column(
             mainAxisSize: MainAxisSize.min,
@@ -284,6 +502,11 @@ class _CouponDeliveryPageState extends State<CouponDeliveryPage> {
                           _discPercentage = '';
                           _couponCode = "";
                         });
+                        Scaffold.of(context).showSnackBar(SnackBar(
+                          content: Text("Coupon has been added.",
+                            style: TextStyle(color:Colors.white),),
+                          backgroundColor: Hexcolor('#0644e3'),
+                        ));
                       }
                     },
                   ),
@@ -291,6 +514,7 @@ class _CouponDeliveryPageState extends State<CouponDeliveryPage> {
 
             ],
           ),
+
           Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[SizedBox(height: 20,),

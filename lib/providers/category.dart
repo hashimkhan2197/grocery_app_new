@@ -52,17 +52,40 @@ class Category with ChangeNotifier {
   }
 
   Future<void> updateCategory(
-      CategoryModel updatedCategoryModel, String storeDocId) async {
-    await Firestore.instance
-        .collection(stores_collection)
-        .document(storeDocId)
-        .collection(category_collection)
-        .document(updatedCategoryModel.categoryDocId)
-        .updateData({
-      _categoryName: updatedCategoryModel.categoryName,
-    }).catchError((error) {
-      throw error;
-    });
+      CategoryModel updatedCategoryModel, String storeDocId,File image) async {
+
+    if(image != null){
+      final ref = FirebaseStorage.instance
+          .ref()
+          .child('images')
+          .child(DateTime.now().toString() + ".jpg");
+      await ref.putFile(image).onComplete;
+
+      final url = await ref.getDownloadURL();
+
+      await Firestore.instance
+          .collection(stores_collection)
+          .document(storeDocId)
+          .collection(category_collection)
+          .document(updatedCategoryModel.categoryDocId)
+          .updateData({
+        _categoryName: updatedCategoryModel.categoryName,
+        _categoryImageRef: url
+      }).catchError((error) {
+        throw error;
+      });
+    }else{
+      await Firestore.instance
+          .collection(stores_collection)
+          .document(storeDocId)
+          .collection(category_collection)
+          .document(updatedCategoryModel.categoryDocId)
+          .updateData({
+        _categoryName: updatedCategoryModel.categoryName,
+      }).catchError((error) {
+        throw error;
+      });
+    }
     notifyListeners();
   }
 

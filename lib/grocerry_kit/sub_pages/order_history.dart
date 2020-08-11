@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:groceryapp/providers/collection_names.dart';
 import 'package:groceryapp/providers/user.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
 
 import 'order_Page.dart';
@@ -22,7 +23,7 @@ class _OrderHistoryState extends State<OrderHistory> {
         centerTitle: true,
         brightness: Brightness.dark,
         elevation: 0,
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Hexcolor('#0644e3'),
         automaticallyImplyLeading: false,
         title: Text(
           "Order History",
@@ -49,6 +50,7 @@ class _OrderHistoryState extends State<OrderHistory> {
               child: StreamBuilder(
                   stream: Firestore.instance
                       .collection(orders_Collection)
+                  .orderBy('dateTime',descending: true)
                       .snapshots(),
                   builder: (context, snapshot) {
                     switch (snapshot.connectionState) {

@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:groceryapp/grocerry_kit/store_package/stores_list_screen.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 class SignInPage extends StatefulWidget {
   static const routeName = "signInPage";
@@ -33,6 +34,14 @@ class _SignInPageState extends State<SignInPage> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
+              Container(height: 200,
+                margin: EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  // color: product.color,
+                    borderRadius: BorderRadius.circular(16),
+                    image: DecorationImage(
+                        image: AssetImage("images/logo.jpeg"), fit: BoxFit.fitHeight)),
+              ),
               Text(
                 'Welcome!',
                 style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
@@ -145,7 +154,7 @@ class _SignInPageState extends State<SignInPage> {
                 Container(
                   margin: EdgeInsets.only(top: 16, bottom: 16),
                   decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor,
+                    color: Hexcolor('#0644e3'),
                     shape: BoxShape.rectangle,
                     borderRadius: BorderRadius.all(Radius.circular(8)),
                   ),

@@ -5,6 +5,7 @@ import 'package:groceryapp/grocerry_kit/sub_category_grid_view.dart';
 import 'package:groceryapp/providers/category.dart';
 import 'package:groceryapp/providers/collection_names.dart';
 import 'package:groceryapp/providers/product.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
 
 import 'category_products_package/add_product.dart';
@@ -28,11 +29,18 @@ class _ProductGridViewState extends State<ProductGridView> {
         centerTitle: true,
         brightness: Brightness.dark,
         elevation: 0,
-        backgroundColor: Theme.of(context).primaryColor,
-        automaticallyImplyLeading: true,
+        backgroundColor: Hexcolor('#0644e3'),leading: GestureDetector(
+        onTap: () {
+          Navigator.pop(context);
+        },
+        child: Icon(
+          Icons.arrow_back,
+          color: Colors.white,
+        ),
+      ),
         title: Text(
           widget.categoryName ,
-          style: TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.white, fontSize: 24)
         ),
         actions: <Widget>[
           GestureDetector(
@@ -83,7 +91,7 @@ class _ProductGridViewState extends State<ProductGridView> {
                   crossAxisCount: 2,
                   mainAxisSpacing: 20,
                   crossAxisSpacing: 20,
-                  childAspectRatio: 0.75,
+                  childAspectRatio: 0.65,
                 ),
                 itemBuilder: (context, index) {
                   var data = snapshot.data.documents[index];

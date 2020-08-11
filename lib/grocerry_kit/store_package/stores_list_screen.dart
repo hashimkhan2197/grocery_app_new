@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:groceryapp/grocerry_kit/home_page.dart';
+import 'package:groceryapp/grocerry_kit/store_package/edit_store_screen.dart';
 import 'package:groceryapp/providers/collection_names.dart';
 import 'package:groceryapp/providers/store.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
 
 import 'add_store_screen.dart';
@@ -20,9 +22,14 @@ class _StoresListPageState extends State<StoresListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
+        brightness: Brightness.dark,
+        elevation: 0,
+        backgroundColor: Hexcolor('#0644e3'),
         automaticallyImplyLeading: false,
         title: Text(
           "Stores",
+            style: TextStyle(color: Colors.white,fontSize: 24)
         ),
         actions: <Widget>[
           GestureDetector(
@@ -30,7 +37,16 @@ class _StoresListPageState extends State<StoresListPage> {
                 Navigator.of(context).pushNamed(AddStorePage.routeName);
               },
               child: Row(
-                children: <Widget>[Text("Add"), Icon(Icons.add)],
+                children: <Widget>[
+                  Text(
+                    "Add",
+                      style: TextStyle(color: Colors.white,fontSize: 18)
+                  ),
+                  Icon(
+                    Icons.add,
+                    color: Colors.white,size: 20,
+                  )
+                ],
               ))
         ],
       ),
@@ -49,7 +65,6 @@ class _StoresListPageState extends State<StoresListPage> {
                     if (snapshot.data.documents.length > 0) {
                       return ListView.builder(
                         itemBuilder: (context, index) {
-
                           var data = snapshot.data.documents[index];
                           return _vehicleCard(data);
                         },
@@ -67,7 +82,8 @@ class _StoresListPageState extends State<StoresListPage> {
   }
 
   Widget _vehicleCard(DocumentSnapshot storeSnapshot) {
-    StoreModel store = Provider.of<Store>(context).convertToStoreModel(storeSnapshot);
+    StoreModel store =
+        Provider.of<Store>(context).convertToStoreModel(storeSnapshot);
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Container(
@@ -87,32 +103,37 @@ class _StoresListPageState extends State<StoresListPage> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: (){
-
-                     // print("Store DocID" + store.storeDocId);
+                    onTap: () {
+                      // print("Store DocID" + store.storeDocId);
 
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => HomePage(store.storeDocId,store.storeName)),
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                HomePage(store.storeDocId, store.storeName)),
                       );
                     },
                     child: Container(
                       width: 200,
                       height: 200,
-                      child: store.storeImageRef!=null?ClipRRect(
-                        borderRadius: new BorderRadius.circular(24.0),
-                        child: Image(
-                          fit: BoxFit.contain,
-                          alignment: Alignment.topRight,
-                          image: NetworkImage(
-                              store.storeImageRef),
-                        ),
-                      ):Container(
-                        margin: EdgeInsets.only(right: 25),
-                        alignment: Alignment.centerRight,
-                        padding: const EdgeInsets.all(16.0),
-                        child:Icon(Icons.navigate_next,size: 50,),
-                      ),
+                      child: store.storeImageRef != null
+                          ? ClipRRect(
+                              borderRadius: new BorderRadius.circular(24.0),
+                              child: Image(
+                                fit: BoxFit.contain,
+                                alignment: Alignment.topRight,
+                                image: NetworkImage(store.storeImageRef),
+                              ),
+                            )
+                          : Container(
+                              margin: EdgeInsets.only(right: 25),
+                              alignment: Alignment.centerRight,
+                              padding: const EdgeInsets.all(16.0),
+                              child: Icon(
+                                Icons.navigate_next,
+                                size: 50,
+                              ),
+                            ),
                     ),
                   ),
                 ],
@@ -156,7 +177,7 @@ class _StoresListPageState extends State<StoresListPage> {
             Container(
               padding: EdgeInsets.all(6),
               child: Text(
-                doc.storeAddress ,
+                doc.storeAddress,
                 maxLines: 3,
                 style: TextStyle(
                   color: Colors.black87,
@@ -167,11 +188,17 @@ class _StoresListPageState extends State<StoresListPage> {
             Container(
               padding: EdgeInsets.all(6),
               child: GestureDetector(
-                onTap: (){
-                  Firestore.instance.collection(stores_collection).document(docu.storeDocId).delete();
+                onTap: () {
+//                  Firestore.instance
+//                      .collection(stores_collection)
+//                      .document(docu.storeDocId)
+//                      .delete();
+                Navigator.push(context, MaterialPageRoute(builder: (context){
+                  return EditStorePage(storeDocId: docu.storeDocId,storeModel: docu,);
+                }));
                 },
                 child: Text(
-                  "delete" ,
+                  "Edit",
                   maxLines: 1,
                   style: TextStyle(
                     color: Theme.of(context).primaryColor,

@@ -14,6 +14,7 @@ import 'package:groceryapp/providers/category.dart';
 import 'package:groceryapp/providers/collection_names.dart';
 import 'package:groceryapp/providers/product.dart';
 import 'package:groceryapp/utils/cart_icons_icons.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
 
 import '../sub_category_grid_view.dart';
@@ -37,7 +38,7 @@ class _HomeListState extends State<HomeList> {
         centerTitle: true,
         brightness: Brightness.dark,
         elevation: 0,
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor:Hexcolor('#0644e3'),
         automaticallyImplyLeading: false,
 
 
@@ -52,18 +53,9 @@ class _HomeListState extends State<HomeList> {
                     fontSize: 16,fontWeight: FontWeight.w500))),
             Text(
              widget.storeName ,
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.white,fontSize: 24),
             ),
-            GestureDetector(
-                onTap: () {
-//                  Navigator.of(context).pushNamed(OrderHistory.routeName);
-                },
-                child: Row(
-                  children: <Widget>[
-                    Icon(Icons.shopping_cart,color: Colors.white,),
-                  Icon(Icons.arrow_forward,color: Colors.white,)
-                  ],
-                )),
+            Text(""),Text("")
           ],
         ),
       ),
@@ -75,7 +67,7 @@ class _HomeListState extends State<HomeList> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.only(left: 16, top: 4),
+                  padding: EdgeInsets.only(left: 10, top: 4),
                   child: Text(
                     'All Categories',
                     style: TextStyle(
@@ -85,7 +77,7 @@ class _HomeListState extends State<HomeList> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 16, top: 4),
+                  padding: EdgeInsets.only(left: 0, top: 4),
                   child: FlatButton(
                     onPressed: () {
                       //print(widget.storeDocId);
@@ -95,13 +87,13 @@ class _HomeListState extends State<HomeList> {
                       }));
                     },
                     child: Text(
-                      'Add Category',
-                      style: TextStyle(color: Theme.of(context).primaryColor),
+                      'Add',
+                      style: TextStyle(color: Hexcolor('#0644e3'),fontSize:16),
                     ),
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 16, top: 4),
+                  padding: EdgeInsets.only(left: 0, top: 4),
                   child: FlatButton(
                     onPressed: () {
                       //print(widget.storeDocId);
@@ -111,8 +103,8 @@ class _HomeListState extends State<HomeList> {
                           }));
                     },
                     child: Text(
-                      'more..',
-                      style: TextStyle(color: Theme.of(context).primaryColor),
+                      'more',
+                        style: TextStyle(color: Hexcolor('#0644e3'),fontSize:16),
                     ),
                   ),
                 ),
@@ -266,7 +258,7 @@ class _HomeListState extends State<HomeList> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.only(left: 16, top: 4),
+                                  padding: EdgeInsets.only(left: 0, top: 4),
                                   child: FlatButton(
                                     onPressed: () {
                                       Navigator.push(context,
@@ -279,12 +271,12 @@ class _HomeListState extends State<HomeList> {
                                     },
                                     child: Text(
                                       'Add Product',
-                                      style: TextStyle(color: Theme.of(context).primaryColor),
+                                      style: TextStyle(color: Hexcolor('#0644e3'),fontSize:16),
                                     ),
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.only(left: 16, top: 4),
+                                  padding: EdgeInsets.only(left: 0, top: 4),
                                   child: FlatButton(
                                     onPressed: () {
                                       Navigator.push(context,
@@ -296,7 +288,7 @@ class _HomeListState extends State<HomeList> {
                                     },
                                     child: Text(
                                       'more..',
-                                      style: TextStyle(color: Theme.of(context).primaryColor),
+                                      style: TextStyle(color: Hexcolor('#0644e3'),fontSize:16),
                                     ),
                                   ),
                                 ),

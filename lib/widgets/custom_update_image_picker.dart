@@ -10,7 +10,7 @@ class UserUpdateImagePicker extends StatefulWidget {
   UserUpdateImagePicker(this.imagePickFn, this.categoryImageRef);
 
   final String categoryImageRef;
-  final void Function(String pickedImage) imagePickFn;
+  final void Function(File pickedImage) imagePickFn;
 
   @override
   _UserUpdateImagePickerState createState() => _UserUpdateImagePickerState();
@@ -29,15 +29,17 @@ class _UserUpdateImagePickerState extends State<UserUpdateImagePicker> {
     setState(() {
       _pickedImage = File(pickedImageFile.path);
     });
-    var ran = new Random();
 
-    final ref =
-    FirebaseStorage.instance.ref().child('images').child(DateTime.now().toString()+ ".jpg");
-    await ref.putFile(_pickedImage).onComplete;
+//    final ref =
+//    FirebaseStorage.instance.ref().child('images').child(DateTime.now().toString()+ ".jpg");
+//    await ref.putFile(_pickedImage).onComplete.then((value) => {
+//
+//
+//    });
+//
+//    final url = await ref.getDownloadURL();
 
-    final url = await ref.getDownloadURL();
-
-    widget.imagePickFn(url);
+    widget.imagePickFn(_pickedImage);
   }
 
   @override
@@ -46,13 +48,6 @@ class _UserUpdateImagePickerState extends State<UserUpdateImagePicker> {
       children: <Widget>[
         FittedBox(
           child: _imageBool == false ?
-//      CircleAvatar(
-//            radius: 50,
-//            backgroundColor:
-//            Theme.of(context).primaryColor,
-//            backgroundImage: NetworkImage(
-//                widget.categoryImageRef),
-//          ):
               Container(
                   color: Theme.of(context).primaryColor,
                   width: 150,

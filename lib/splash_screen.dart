@@ -1,12 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'dart:async';
-
+import 'package:hexcolor/hexcolor.dart';
 import 'grocerry_kit/SignIn.dart';
-import 'grocerry_kit/store_package/stores_list_screen.dart';
 
 
 class SplashScreen extends StatefulWidget {
@@ -29,24 +25,18 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Firestore.instance.collection('splashImage').document('splashImage').get().then((value){
-      _url = value.data['url'];
-    });
+
     return Scaffold(
-      backgroundColor: Colors.amber,
+      backgroundColor: Hexcolor('#0644e3'),
       body: Center(
-        child: CachedNetworkImage(
-          imageUrl: _url,
-          placeholder: (context, url) => const CircleAvatar(
-            backgroundColor: Colors.amber,
-            radius: 125,
-          ),
-          imageBuilder: (context, image) => CircleAvatar(
-            backgroundImage: image,
-            radius: 125,
-          ),
-        ),
-      ),
-    );
+        child: Container(height: 250,
+          margin: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            // color: product.color,
+              borderRadius: BorderRadius.circular(16),
+              image: DecorationImage(
+                  image: AssetImage("images/splash.png"), fit: BoxFit.fitWidth)),
+        ),)
+      );
   }
 }

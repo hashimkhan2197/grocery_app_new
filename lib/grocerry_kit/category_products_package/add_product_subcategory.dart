@@ -3,6 +3,7 @@ import 'package:groceryapp/providers/category.dart';
 import 'package:groceryapp/providers/product.dart';
 import 'package:groceryapp/style_functions.dart';
 import 'package:groceryapp/widgets/custom_image_picker.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
 import 'dart:io';
 
@@ -40,10 +41,24 @@ class _AddProductSubcategoryPageState extends State<AddProductSubcategoryPage> {
     return Scaffold(
       //bottomNavigationBar: BottomBar(),
       appBar: AppBar(
-        automaticallyImplyLeading: true,
-        title: Text(
-          "Add Subcategory",
+        centerTitle: true,
+        brightness: Brightness.dark,
+        elevation: 0,
+        backgroundColor: Hexcolor('#0644e3'),
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
         ),
+        automaticallyImplyLeading: false,
+        title: Text(
+            "Add Subcategory",style: TextStyle(color: Colors.white,fontSize: 24)
+        ),
+
       ),
       body: SafeArea(
         child: Column(

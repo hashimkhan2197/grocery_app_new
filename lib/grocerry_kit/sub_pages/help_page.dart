@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 class HelpPage extends StatefulWidget {
   @override
@@ -12,10 +13,10 @@ class _HelpPageState extends State<HelpPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Colors.blue,
+        backgroundColor: Hexcolor('#0644e3'),
         automaticallyImplyLeading: false,
         elevation: 0,
-        title: Text('Feedback',
+        title: Text('Help',
             style: TextStyle(color: Colors.white, fontSize: 24)),
       ),
       body: StreamBuilder(
@@ -78,7 +79,14 @@ class _HelpPageState extends State<HelpPage> {
                                     Text(
                                       data['number'],
                                       style: TextStyle(
-                                        fontSize: 20,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    Text(
+                                      data['email'],
+                                      style: TextStyle(
+                                        fontSize: 18,
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ),

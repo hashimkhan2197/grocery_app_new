@@ -5,6 +5,7 @@ import 'package:groceryapp/providers/cart.dart';
 import 'package:groceryapp/providers/collection_names.dart';
 import 'package:groceryapp/providers/order_model.dart';
 import 'package:groceryapp/providers/user.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 class OrderPage extends StatefulWidget {
   OrderPage(this.orderSnapshot);
@@ -26,7 +27,7 @@ class _OrderPageState extends State<OrderPage> {
   @override
   void initState() {
     _orderItem = _covertToOrderItem(widget.orderSnapshot);
-    _total = double.parse(_orderItem.subTotal)+ double.parse(_orderItem.deliveryCharges);
+    _total = double.parse(_orderItem.subTotal)+double.parse(_orderItem.deliveryCharges)-double.parse(_orderItem.discPercentage);
     print(_orderItem.cartItemList);
     super.initState();
   }
@@ -70,19 +71,26 @@ class _OrderPageState extends State<OrderPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Material(
-        child: Scaffold(
-          appBar: AppBar(
-            centerTitle: true,
-            brightness: Brightness.dark,
-            elevation: 0,
-            backgroundColor: Theme.of(context).primaryColor,
-            automaticallyImplyLeading: false,
-            title: Text(
-              "Order Details",
-              style: TextStyle(color: Colors.white),
+        child: Scaffold(appBar: AppBar(
+          centerTitle: true,
+          brightness: Brightness.dark,
+          elevation: 0,
+          backgroundColor: Hexcolor('#0644e3'),
+          leading: GestureDetector(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Icon(
+              Icons.arrow_back,
+              color: Colors.white,
             ),
-
           ),
+          automaticallyImplyLeading: false,
+          title: Text(
+              "Order Details",style: TextStyle(color: Colors.white,fontSize: 24)
+          ),
+
+        ),
           backgroundColor: Colors.white,
           body: SingleChildScrollView(
             child: Column(
@@ -172,7 +180,6 @@ class _OrderPageState extends State<OrderPage> {
 
                   ),
                 ),
-
                 ///Column for total price , discount etc
                 Container(
                   alignment: Alignment.centerLeft,
@@ -198,18 +205,19 @@ class _OrderPageState extends State<OrderPage> {
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       SizedBox(height: 8,),
+
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(
-                            "Discount %: ",
+                            "Sub-Total:",
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
                           Text(
-                            _orderItem.discPercentage,
+                            _orderItem.subTotal + " SEK",
                             style: TextStyle(
                               fontSize: 18,
                               //fontWeight: FontWeight.w500,
@@ -224,14 +232,14 @@ class _OrderPageState extends State<OrderPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(
-                            "Sub-Total:",
+                            "Discount: ",
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
                           Text(
-                            _orderItem.subTotal + " SEK",
+                            _orderItem.discPercentage+ ' SEK',
                             style: TextStyle(
                               fontSize: 18,
                               //fontWeight: FontWeight.w500,
@@ -308,7 +316,7 @@ class _OrderPageState extends State<OrderPage> {
                           Text(
                             "Delivery Time:",
                             style: TextStyle(
-                              fontSize: 22,
+                              fontSize: 20,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -316,7 +324,7 @@ class _OrderPageState extends State<OrderPage> {
                             _orderItem.deliveryTime,
                             style: TextStyle(
                               color: Theme.of(context).primaryColor,
-                              fontSize: 22,
+                              fontSize: 18,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -328,7 +336,7 @@ class _OrderPageState extends State<OrderPage> {
                           Text(
                             "Payment Method:",
                             style: TextStyle(
-                              fontSize: 22,
+                              fontSize: 20,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -336,7 +344,7 @@ class _OrderPageState extends State<OrderPage> {
                             _orderItem.paymentMethod,
                             style: TextStyle(
                               color: Theme.of(context).primaryColor,
-                              fontSize: 22,
+                              fontSize: 18,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -485,7 +493,7 @@ class _OrderPageState extends State<OrderPage> {
           shape: BoxShape.rectangle,
           borderRadius: BorderRadius.circular(8),
           color: Colors.white70),
-      height: 110,
+      height: 120,
       child: Row(children: <Widget>[
         Container(
           width: 90,

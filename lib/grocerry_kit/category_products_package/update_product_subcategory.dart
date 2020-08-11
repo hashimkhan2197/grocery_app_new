@@ -6,6 +6,7 @@ import 'package:groceryapp/providers/product.dart';
 import 'package:groceryapp/style_functions.dart';
 import 'package:groceryapp/widgets/custom_image_picker.dart';
 import 'package:groceryapp/widgets/custom_update_image_picker.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
 import 'dart:io';
 
@@ -35,22 +36,41 @@ class _UpdateProductSubcategoryPageState
   String _productName;
   String _productImageRef;
   String _productPrice;
+  File _newImageFile;
   var _isLoading;
   StyleFunctions styleFunctions = StyleFunctions();
 
-  void _pickedImage(String image) {
-    _productImageRef = image;
+  void _pickedImage(File image) {
+    _newImageFile = image;
   }
-
+  @override
+  void initState() {
+    _productImageRef = widget.productModel.productImageRef;
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       //bottomNavigationBar: BottomBar(),
       appBar: AppBar(
-        automaticallyImplyLeading: true,
-        title: Text(
-          "Edit Subcategory",
+        centerTitle: true,
+        brightness: Brightness.dark,
+        elevation: 0,
+        backgroundColor: Hexcolor('#0644e3'),
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
         ),
+        automaticallyImplyLeading: false,
+        title: Text(
+            "Edit Subcategory",style: TextStyle(color: Colors.white,fontSize: 24)
+        ),
+
       ),
       body: SafeArea(
         child: Column(
@@ -152,7 +172,7 @@ class _UpdateProductSubcategoryPageState
                                       storeDocId: widget.storeDocId,
                                       updatedProductModel: updatedProduct,
                                       subProductDocId:
-                                          widget.subCatProductDocId)
+                                          widget.subCatProductDocId,image: _newImageFile)
                                   .then((e) {
                                     Navigator.of(context).pop();
                                     // Provider.of<Products>(context).login();
